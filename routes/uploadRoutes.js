@@ -10,16 +10,17 @@ function readVideos() {
 }
 
 router.post("/", (req, res) => {
+  if (!req.title) {
+    res.status(400).send("Title is required");
+  } else if (!req.description) {
+    res.status(400).send("Description is required");
+  }
   const newVideo = {
     id: uniqid(),
     title: req.body.title,
-    description: req.body.description,
+    description: req.description,
   };
-  if (!req.body.title) {
-    res.status(400).send("Title is required");
-  } else if (!req.body.description) {
-    res.status(400).send("Description is required");
-  }
+
   const videos = readVideos();
 
   videos.push(newVideo);
